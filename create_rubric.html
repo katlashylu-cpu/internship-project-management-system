@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Create Rubric</h1>
+<form method="POST">
+    <div class="mb-3">
+        <label for="name" class="form-label">Rubric Name</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <h3>Criteria</h3>
+    <div id="criteria-container">
+        <div class="criterion mb-3">
+            <div class="row">
+                <div class="col-md-8">
+                    <label class="form-label">Description</label>
+                    <input type="text" class="form-control" name="criteria[]" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Max Points</label>
+                    <input type="number" class="form-control" name="max_points[]" required>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-secondary mb-3" onclick="addCriterion()">Add Criterion</button>
+    <button type="submit" class="btn btn-primary">Create Rubric</button>
+</form>
+
+<script>
+function addCriterion() {
+    const container = document.getElementById('criteria-container');
+    const criterionDiv = document.createElement('div');
+    criterionDiv.className = 'criterion mb-3';
+    criterionDiv.innerHTML = `
+        <div class="row">
+            <div class="col-md-8">
+                <label class="form-label">Description</label>
+                <input type="text" class="form-control" name="criteria[]" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Max Points</label>
+                <input type="number" class="form-control" name="max_points[]" required>
+            </div>
+        </div>
+    `;
+    container.appendChild(criterionDiv);
+}
+</script>
+{% endblock %}

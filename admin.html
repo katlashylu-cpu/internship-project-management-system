@@ -1,0 +1,35 @@
+<!-- templates/admin.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Admin Dashboard</h1>
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">Project Statistics</h5>
+        <p><strong>Total Projects:</strong> {{ total_projects }}</p>
+        <p><strong>Completed Projects:</strong> {{ completed_projects }}</p>
+        <p><strong>Completion Rate:</strong> {{ "%.2f"|format(completion_rate) }}%</p>
+    </div>
+</div>
+<h3>All Projects</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Student ID</th>
+            <th>Status</th>
+            <th>Created</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for project in projects %}
+        <tr>
+            <td>{{ project.title }}</td>
+            <td>{{ project.student_id }}</td>
+            <td>SUCCESS</td>
+            <td>{{ project.created_at.strftime('%Y-%m-%d') }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

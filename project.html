@@ -1,0 +1,44 @@
+<!-- templates/project.html (Updated) -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ project.title }}</h1>
+<p><strong>Student ID:</strong> {{ project.student_id }}</p>
+<p><strong>Status:</strong> {{ project.status }}</p>
+<p><strong>Created:</strong> {{ project.created_at.strftime('%Y-%m-%d') }}</p>
+<h3>Submissions</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Version</th>
+            <th>Submitted</th>
+            <th>Plagiarism Score</th>
+            <th>Feedback</th>
+            <th>Evaluation</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for submission in project.submissions %}
+        <tr>
+            <td>{{ submission.version }}</td>
+            <td>{{ submission.submitted_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ submission.plagiarism_score|default('Not checked', true) }}%</td>
+            <td>{{ submission.feedback or 'No feedback yet' }}</td>
+            <td>
+                {% if submission.evaluations %}
+                    {% for eval in submission.evaluations %}
+                        {{ eval.score }}/{{ eval.criterion.max_points }} ({{ eval.criterion.description }})<br>
+                    {% endfor %}
+                {% else %}
+                    Not evaluated
+                {% endif %}
+            </td>
+            <td>
+                <a href="{{ url_for('evaluate_submission', submission_id=submission.id) }}" class="btn btn-sm btn-primary">Evaluate</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
